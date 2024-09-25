@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.wheatherapp.adduser.screen.AddUserForm
 import com.example.wheatherapp.adduser.screen.AddUserScreen
 import com.example.wheatherapp.loginflow.screen.LoginScreen
 import com.example.wheatherapp.ui.theme.WheatherAppTheme
@@ -20,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContent {
             App()
         }
@@ -37,7 +38,7 @@ fun App() {
             }
         }
         composable("addUser") {
-            AddUserScreen()
+            AddUserForm()
         }
     }
 }

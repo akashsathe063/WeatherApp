@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class UserDetails(
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    var id: Int = 0,
     var firstName: String,
     var lastName: String,
     var email: String
