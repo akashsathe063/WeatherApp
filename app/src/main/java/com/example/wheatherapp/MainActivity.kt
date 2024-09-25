@@ -34,11 +34,19 @@ fun App() {
     NavHost(navController = navController, startDestination = "loginScreen") {
         composable("loginScreen") {
             LoginScreen() {
-                navController.navigate("addUser")
+                navController.navigate("userListScreen")
             }
         }
-        composable("addUser") {
-            AddUserForm()
+        composable("userListScreen") {
+            AddUserScreen() {
+                navController.navigate("addUserScreen")
+            }
+        }
+
+        composable("addUserScreen") {
+            AddUserForm() {
+                navController.popBackStack()
+            }
         }
     }
 }

@@ -30,9 +30,8 @@ import com.example.wheatherapp.db.UserDetails
 
 @Preview
 @Composable
-fun AddUserForm(modifier: Modifier = Modifier) {
+fun AddUserForm(modifier: Modifier = Modifier, navigateToUserListScreen: () -> Unit = {}) {
     val addUserViewModel: AddUserViewModel = hiltViewModel()
-    val getAddUserList = addUserViewModel.getAddUserData.collectAsState(emptyList())
     var firstName by remember {
         mutableStateOf("")
     }
@@ -83,7 +82,7 @@ fun AddUserForm(modifier: Modifier = Modifier) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(onClick = {
-                        Log.d("AddUserForm", "AddUserForm: ${getAddUserList.value} ")
+                        navigateToUserListScreen()
                     }) {
                         Text(text = "Cancel")
                     }
@@ -96,6 +95,12 @@ fun AddUserForm(modifier: Modifier = Modifier) {
                                 email = email.trim()
                             )
                         )
+                        if (firstName.trim().isNotEmpty() &&
+                            lastName.trim().isNotEmpty() &&
+                            email.trim().isNotEmpty()
+                        ) {
+                            navigateToUserListScreen()
+                        }
                     }) {
                         Text(text = "Save")
                     }
