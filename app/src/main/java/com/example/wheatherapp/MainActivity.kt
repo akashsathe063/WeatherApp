@@ -3,18 +3,14 @@ package com.example.wheatherapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.wheatherapp.adduser.screen.AddUserForm
 import com.example.wheatherapp.adduser.screen.AddUserScreen
 import com.example.wheatherapp.loginflow.screen.LoginScreen
-import com.example.wheatherapp.ui.theme.WheatherAppTheme
+import com.example.wheatherapp.weather.screen.WeatherScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,13 +34,23 @@ fun App() {
             }
         }
         composable("userListScreen") {
-            AddUserScreen() {
+            AddUserScreen(navigateToWeatherScreen = {
+                navController.navigate("weatherScreen")
+            }) {
                 navController.navigate("addUserScreen")
             }
         }
 
         composable("addUserScreen") {
             AddUserForm() {
+                navController.popBackStack()
+            }
+        }
+        composable("weatherScreen") {
+            WeatherScreen(onLogOutPress = {
+                navController.popBackStack(navController.graph.startDestinationId, true)
+                navController.navigate(navController.graph.startDestinationId)
+            }) {
                 navController.popBackStack()
             }
         }

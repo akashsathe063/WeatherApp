@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WeatherViewModel @Inject constructor(private val weatherRepository: WeatherRepository) :
     ViewModel() {
-    val getWeatherCurrentData: SharedFlow<Current>
+    val getWeatherCurrentData: SharedFlow<List<Current>>
         get() = weatherRepository.weatherData
 
     fun getWeatherData() {

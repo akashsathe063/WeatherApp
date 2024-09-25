@@ -9,7 +9,6 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,8 +26,8 @@ class WeatherRepository @Inject constructor(
     val getAddUserData: Flow<List<UserDetails>>
         get() = addUserDataBase.getUserDao().getAddUserList()
 
-    private val _weatherData = MutableSharedFlow<Current>()
-    val weatherData: SharedFlow<Current>
+    private val _weatherData = MutableStateFlow<List<Current>>(emptyList())
+    val weatherData: SharedFlow<List<Current>>
         get() = _weatherData
 
 
@@ -40,11 +39,9 @@ class WeatherRepository @Inject constructor(
             auth.signInWithEmailAndPassword(userName, password).addOnCompleteListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     if (it.isSuccessful) {
-                        Log.d("WeatherRepository", "userLogin: succefule")
                         _loginStatus.emit(true)
                     } else {
                         _loginStatus.emit(false)
-                        Log.d("WeatherRepository", "userLogin: failure")
                     }
                 }
             }
@@ -58,8 +55,17 @@ class WeatherRepository @Inject constructor(
         val response = weatherApi.getWeatherData()
         if (response.isSuccessful && response.body() != null) {
             response.body()?.let {
-                _weatherData.emit(it.current)
+                Log.d("getWeatherData", "getWeatherData: $it")
+                _weatherData.emit(listOf(it.current))
             }
         }
+    }
+
+    suspend fun deleteUser(user:UserDetails){
+        addUserDataBase.getUserDao().deleteUser(user)
+    }
+
+    suspend fun logOut(){
+        auth.signOut()
     }
 }

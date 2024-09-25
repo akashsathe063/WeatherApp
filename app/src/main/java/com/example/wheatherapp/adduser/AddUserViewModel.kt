@@ -21,4 +21,10 @@ class AddUserViewModel @Inject constructor(private val weatherRepository: Weathe
                 weatherRepository.addUser(userDetails)
         }
     }
+
+    fun deleteUser(userDetails: UserDetails){
+        viewModelScope.launch {
+            weatherRepository.deleteUser(userDetails)
+        }
+    }
 }

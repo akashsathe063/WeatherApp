@@ -20,4 +20,10 @@ class LoginViewModel @Inject constructor(private val weatherRepository: WeatherR
             weatherRepository.userLogin(username, password)
         }
     }
+
+    fun logOut(){
+        viewModelScope.launch {
+            weatherRepository.logOut()
+        }
+    }
 }
