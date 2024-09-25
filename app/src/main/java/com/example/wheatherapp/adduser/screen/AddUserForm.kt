@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -19,6 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +42,7 @@ fun AddUserForm(modifier: Modifier = Modifier, navigateToUserListScreen: () -> U
     var email by remember {
         mutableStateOf("")
     }
+    var isEmailValid by remember { mutableStateOf(true) }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -69,10 +73,19 @@ fun AddUserForm(modifier: Modifier = Modifier, navigateToUserListScreen: () -> U
                 )
                 TextField(
                     value = email,
-                    onValueChange = { email = it },
+                    onValueChange = {
+                        email = it
+                        isEmailValid = EmailValidation(email = it)
+                    },
+                    isError = !isEmailValid,
                     label = { Text("Email") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
+                if (!isEmailValid) {
+                    Text(text = "Invalid email address",color = Color.Red)
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
@@ -86,6 +99,9 @@ fun AddUserForm(modifier: Modifier = Modifier, navigateToUserListScreen: () -> U
                     }
 
                     Button(onClick = {
+                        if (!isEmailValid) {
+                            return@Button
+                        }
                         addUserViewModel.addUserInDb(
                             UserDetails(
                                 firstName = firstName.trim(),
@@ -106,4 +122,10 @@ fun AddUserForm(modifier: Modifier = Modifier, navigateToUserListScreen: () -> U
             }
         }
     }
+}
+
+
+fun EmailValidation(email: String): Boolean {
+    val emailRegex = Regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")
+    return emailRegex.matches(email)
 }
