@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.wheatherapp.adduser.screen.AddUserForm
 import com.example.wheatherapp.adduser.screen.AddUserScreen
+import com.example.wheatherapp.commonScreen.SplashScreen
 import com.example.wheatherapp.loginflow.screen.LoginScreen
 import com.example.wheatherapp.weather.screen.WeatherScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +28,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "loginScreen") {
+    NavHost(navController = navController, startDestination = "SplashScreen") {
+        composable("SplashScreen") {
+            SplashScreen(navController = navController)
+        }
         composable("loginScreen") {
             LoginScreen() {
                 navController.navigate("userListScreen")
@@ -48,8 +52,9 @@ fun App() {
         }
         composable("weatherScreen") {
             WeatherScreen(onLogOutPress = {
-                navController.popBackStack(navController.graph.startDestinationId, true)
-                navController.navigate(navController.graph.startDestinationId)
+                navController.navigate("loginScreen") {
+                    popUpTo("loginScreen") { inclusive = true }
+                }
             }) {
                 navController.popBackStack()
             }

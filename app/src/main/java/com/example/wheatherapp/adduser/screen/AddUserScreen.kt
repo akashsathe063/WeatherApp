@@ -35,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +62,12 @@ fun AddUserScreen(
         modifier = modifier
             .fillMaxSize()
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.weather_bg),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+        )
         Column {
             WeatherToolBar()
             Row(
@@ -77,8 +84,8 @@ fun AddUserScreen(
                     style = TextStyle(
                         fontSize = 16.sp,
 //                            fontFamily = FontFamily(Font(R.font.inter)),
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF888888)
+                        fontWeight = FontWeight(600),
+                        color = Color.Black
                     )
                 )
 
@@ -90,12 +97,21 @@ fun AddUserScreen(
             if (getAddUserList.value.isEmpty()) {
                 Box(
                     Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "No Active User Available",
-                        style = MaterialTheme.typography.headlineLarge
+                    Image(
+                        painter = painterResource(id = R.drawable.weather_bg),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier.matchParentSize()
                     )
+                    Column(Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "No Active User Available",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                    }
                 }
             } else {
                 LazyColumn {
@@ -125,7 +141,8 @@ fun AddUserScreen(
                                 Icon(
                                     imageVector = Icons.Default.Delete,
                                     contentDescription = null,
-                                    tint = Color.White
+                                    tint = Color.White,
+                                    modifier = Modifier.padding(20.dp)
                                 )
                             }
                         }) {

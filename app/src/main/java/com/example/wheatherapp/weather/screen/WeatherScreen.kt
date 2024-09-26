@@ -1,5 +1,6 @@
 package com.example.wheatherapp.weather.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,11 +20,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.wheatherapp.R
 import com.example.wheatherapp.commonScreen.WeatherToolBar
 import com.example.wheatherapp.loginflow.LoginViewModel
 import com.example.wheatherapp.weather.WeatherViewModel
@@ -42,7 +46,12 @@ fun WeatherScreen(
     }
     val weatherData = weatherViewModel.getWeatherCurrentData.collectAsState(initial = emptyList())
     Box(modifier = modifier.fillMaxSize()) {
-
+        Image(
+            painter = painterResource(id = R.drawable.weather_bg),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+        )
         Column {
             WeatherToolBar()
             Spacer(modifier = Modifier.height(16.dp))

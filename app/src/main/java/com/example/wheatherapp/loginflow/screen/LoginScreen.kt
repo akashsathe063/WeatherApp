@@ -1,5 +1,6 @@
 package com.example.wheatherapp.loginflow.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,9 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.wheatherapp.R
 import com.example.wheatherapp.loginflow.LoginViewModel
 
 @Preview
@@ -39,7 +43,12 @@ fun LoginScreen(modifier: Modifier = Modifier, navigateToAddUserScreen: () -> Un
         var password by remember {
             mutableStateOf("")
         }
-
+        Image(
+            painter = painterResource(id = R.drawable.weather_bg),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,7 +73,7 @@ fun LoginScreen(modifier: Modifier = Modifier, navigateToAddUserScreen: () -> Un
             Button(onClick = {
                 logiViewModel.loginStatus(userName, password)
             }) {
-                Text(text = "Submit")
+                Text(text = "Login")
             }
         }
 
